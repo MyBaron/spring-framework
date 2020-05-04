@@ -61,12 +61,16 @@ public class ContextLoaderTests {
 
 	@Test
 	public void testContextLoaderListenerWithDefaultContext() {
+		//事件源
 		MockServletContext sc = new MockServletContext("");
 		sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM,
 				"/org/springframework/web/context/WEB-INF/applicationContext.xml " +
 				"/org/springframework/web/context/WEB-INF/context-addition.xml");
+		//事件监听器
 		ServletContextListener listener = new ContextLoaderListener();
+		//创建了一个事件
 		ServletContextEvent event = new ServletContextEvent(sc);
+		//通知事件 初始化
 		listener.contextInitialized(event);
 		String contextAttr = WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE;
 		WebApplicationContext context = (WebApplicationContext) sc.getAttribute(contextAttr);
