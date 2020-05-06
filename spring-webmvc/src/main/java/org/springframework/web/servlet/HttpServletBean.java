@@ -109,6 +109,7 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 	 * provided by default.
 	 * @throws IllegalArgumentException if environment is not assignable to
 	 * {@code ConfigurableEnvironment}
+	 * 实现自 EnvironmentAware 接口，自动注入
 	 */
 	@Override
 	public void setEnvironment(Environment environment) {
@@ -120,6 +121,8 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 	 * Return the {@link Environment} associated with this servlet.
 	 * <p>If none specified, a default environment will be initialized via
 	 * {@link #createEnvironment()}.
+	 *
+	 * 实现自 EnvironmentCapable 接口
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
@@ -148,13 +151,22 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 	public final void init() throws ServletException {
 
 		// Set bean properties from init parameters.
+		/**
+		 *
+		 * 解析 <init-param /> 标签，封装到 PropertyValues pvs 中
+		 *
+		 * requiredProperties是检验init param 标签配置属性是否有漏，如果漏了会抛出错误
+		 */
 		PropertyValues pvs = new ServletConfigPropertyValues(getServletConfig(), this.requiredProperties);
 		if (!pvs.isEmpty()) {
 			try {
+				// 将当前的这个 Servlet 对象，转化成一个 BeanWrapper 对象。从而能够以 Spring 的方式来将 pvs 注入到该 BeanWrapper 对象中
 				BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(this);
 				ResourceLoader resourceLoader = new ServletContextResourceLoader(getServletContext());
+				// 注册自定义属性编辑器，一旦碰到 Resource 类型的属性，将会使用 ResourceEditor 进行解析
 				bw.registerCustomEditor(Resource.class, new ResourceEditor(resourceLoader, getEnvironment()));
 				initBeanWrapper(bw);
+				// 以 Spring 的方式来将 pvs 注入到该 BeanWrapper 对象中
 				bw.setPropertyValues(pvs, true);
 			}
 			catch (BeansException ex) {
@@ -166,6 +178,8 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 		}
 
 		// Let subclasses do whatever initialization they like.
+		// 子类来实现，实现自定义的初始化逻辑。目前，有具体的代码实现。
+		// 具体实现由FrameworkServlet
 		initServletBean();
 	}
 

@@ -267,6 +267,7 @@ public class ContextLoader {
 	public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
 		//若已经存在 ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE 对应的 WebApplicationContext 对象
 		//比如xml 中有多个ContextLoader，相当于初始化了多个WebApplicationContext对象，那么第二次初始化就会在这里抛出错误
+		// 因为只允许一个root的WebApplicationContext
 		if (servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE) != null) {
 			throw new IllegalStateException(
 					"Cannot initialize context because there is already a root application context present - " +

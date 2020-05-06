@@ -38,6 +38,9 @@ public class SourceFilteringListener implements GenericApplicationListener, Smar
 
 	private final Object source;
 
+	/**
+	 * 代理监听器
+	 */
 	@Nullable
 	private GenericApplicationListener delegate;
 
@@ -67,6 +70,10 @@ public class SourceFilteringListener implements GenericApplicationListener, Smar
 	}
 
 
+	/**
+	 * 触发事件
+	 * @param event the event to respond to
+	 */
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event.getSource() == this.source) {
