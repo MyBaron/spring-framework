@@ -542,7 +542,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 		try {
 			// 初始化 WebApplicationContext 对象
 			this.webApplicationContext = initWebApplicationContext();
-			// 空实现。子类有需要，可以实现该方法，实现自定义逻辑
+			// 空实现。子类有需要，可以实现该方法，10
 			initFrameworkServlet();
 		}
 		catch (ServletException | RuntimeException ex) {
@@ -601,6 +601,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 			}
 		}
 		// 第二种情况，从 ServletContext 获取对应的 WebApplicationContext 对象
+		// 一般使用在web.xml配置配置了webApplicationContext
 		if (wac == null) {
 			// No context instance was injected at construction time -> see if one
 			// has been registered in the servlet context. If one exists, it is assumed
@@ -1029,9 +1030,11 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 		// 记录异常
 		Throwable failureCause = null;
 
+		// 获取 locale，本地化信息
 		LocaleContext previousLocaleContext = LocaleContextHolder.getLocaleContext();
 		LocaleContext localeContext = buildLocaleContext(request);
 
+		// 管理 request 和 session 的属性
 		RequestAttributes previousAttributes = RequestContextHolder.getRequestAttributes();
 		ServletRequestAttributes requestAttributes = buildRequestAttributes(request, response, previousAttributes);
 

@@ -52,6 +52,11 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.web.servlet.handler.AbstractHandlerMapping
  * @see org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping
  * @see org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+ *  请求处理组件之一
+ *  用于管理请求对应的处理器和拦截器
+ *  子类有两种匹配模式
+ *  基于URL匹配：由XML配置指定的URL和方法
+ *  基于Method进行匹配：使用@RequestMapping
  */
 public interface HandlerMapping {
 

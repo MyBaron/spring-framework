@@ -102,6 +102,7 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 	@Override
 	public void initApplicationContext() throws BeansException {
 		super.initApplicationContext();
+		// 将 urlMap 配置，注册处理器
 		registerHandlers(this.urlMap);
 	}
 
@@ -125,6 +126,7 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 				if (handler instanceof String) {
 					handler = ((String) handler).trim();
 				}
+				// 【核心代码】注册处理器
 				registerHandler(url, handler);
 			});
 			if (logger.isDebugEnabled()) {

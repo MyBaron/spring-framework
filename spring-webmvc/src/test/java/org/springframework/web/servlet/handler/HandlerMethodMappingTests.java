@@ -79,6 +79,7 @@ public class HandlerMethodMappingTests {
 	@Test
 	public void directMatch() throws Exception {
 		String key = "foo";
+		//将handle注册到mappingLookup 和 urlLookup 容器中
 		this.mapping.registerMapping(key, this.handler, this.method1);
 
 		HandlerMethod result = this.mapping.getHandlerInternal(new MockHttpServletRequest("GET", key));
